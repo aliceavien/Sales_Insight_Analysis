@@ -1,0 +1,49 @@
+1) How many transactions we did in Chennai in total? 
+
+SELECT count(*) from transactions where market_code = 'Mark001';
+
+2) How many transactions in USD?
+SELECT  count(*) from transactions where currency = 'USD';
+
+3) Which transactions in USD? Display all info about them.
+SELECT * from transactions where currency = 'USD';
+
+4) How many transactions in 2020?
+SELECT count(*) FROM transactions where order_date like '%2020%';
+
+5) Count the number of transactions in 2020.
+
+#here we joined the transactions table with the date table to find the transactions according to the date tabler's year 2020. 
+select count(transactions.product_code) from transactions inner join date on transactions.order_date = date.date where date.year = 2020;
+
+OR 
+#just count from the transaction table where there is any trace of '2020' in the order-date column.
+SELECT count(*) FROM transactions where order_date like '%2020%';
+
+6) Find the amount of revenue in 2020.select sum(sales_amount) from transactions where order_date like '%2020%';
+
+OR 
+
+SELECT sum(transactions.sales_amount) from transactions inner join date on transactions.order_date = date.date where date.year = 2020;
+
+7) How much revenue made in Chennai in 2020? 
+
+SELECT sum(transactions.sales_amount) from transactions inner join markets on transactions.market_code = markets.markets_code where transactions.order_date like '%2020%' and markets.markets_name = 'Chennai';
+
+OR 
+#here i joined 3 tables - date, markets, transactions (to get year from date table, 'Chennai' from markets table, and sales_amount from transactions table) 
+select sum(sales_amount) from transactions inner join date on transactions.order_date = date.date inner join markets on transactions.market_code = markets.markets_code where date.year = 2020 and markets.markets_name = 'Chennai';
+
+8)  Count the number of distinct products in Chennai in the year 2020.
+
+SELECT count(distinct transactions.product_code) from transactions where transactions.order_date like '%2020%' and transactions.market_code = 'Mark001';'
+
+OR
+
+select count(distinct transactions.product_code) from transactions inner join markets on transactions.market_code = markets.markets_code where transactions.order_date like '%2020%' and markets.markets_name = 'Chennai';
+
+9) Checking if sales amount has null value:
+
+SELECT * FROM transactions WHERE sales_amount IS NULL;
+#seems like there is no null value in sales amount. 
+
